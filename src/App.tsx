@@ -1,24 +1,45 @@
-import React from 'react';
-import logo from './logo.svg';
+import React, { useEffect, useState } from 'react';
 import './App.css';
+import { Product } from './Model/product';
+import Catalog from './Component/catalog/catalog';
+import { Typography } from '@mui/material';
+
+
+
+
+
+const products : Product[] = [
+
+];
+
 
 function App() {
+  //hub
+  const [addedProduct, setProducts] = useState<Product[]> ([]);
+
+  useEffect(() =>{
+    fetch('http://localhost:8080/api/products')
+    .then(response => response.json())
+    .then(data => 
+       setProducts(data)
+    );
+    
+  },  []);
+
+  // const clickHandle = () =>{
+  //   const newProduct = { name: 'product 3', price: 33.22 };
+  //   setProducts([...addedProduct, newProduct]);
+  //   alert('Product added!'); 
+  // }
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    // JSX
+    <div className='app' style={ {color : 'black' } }>
+
+      <Typography variant='h2'>My Shop</Typography>
+      <Catalog products = {addedProduct}></Catalog>
+        
+
     </div>
   );
 }
